@@ -44,7 +44,7 @@ exports.register = async (req, res) => {
       isAdmin: req.body.isAdmin,
     });
 
-    const saveingUser = newUser.save();
+    const saveingUser = await newUser.save();
 
     if (!saveingUser) {
       return res.status(500).json({ message: "user not registered" });
