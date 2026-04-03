@@ -26,17 +26,17 @@ This API serves as the backend for an e-commerce application. It exposes a set o
 
 ## Tech Stack
 
-| Technology | Purpose |
-|---|---|
-| Node.js | Runtime environment |
-| Express.js | Web framework and routing |
-| MongoDB | Database |
-| Mongoose | MongoDB object modeling |
-| JSON Web Tokens (JWT) | Authentication |
-| bcrypt | Password hashing |
-| Multer | Image upload handling |
-| express-rate-limit | Brute force protection |
-| dotenv | Environment variable management |
+| Technology            | Purpose                         |
+| --------------------- | ------------------------------- |
+| Node.js               | Runtime environment             |
+| Express.js            | Web framework and routing       |
+| MongoDB               | Database                        |
+| Mongoose              | MongoDB object modeling         |
+| JSON Web Tokens (JWT) | Authentication                  |
+| bcrypt                | Password hashing                |
+| Multer                | Image upload handling           |
+| express-rate-limit    | Brute force protection          |
+| dotenv                | Environment variable management |
 
 ---
 
@@ -134,14 +134,15 @@ Product images are handled by **Multer**. When an admin adds a product, the imag
 
 ### Auth — `/api/auth`
 
-| Method | Endpoint | Description | Auth Required |
-|---|---|---|---|
-| POST | `/register` | Create a new user account | No |
-| POST | `/login` | Log in and receive tokens | No |
-| POST | `/refresh` | Get a new access token | No |
-| POST | `/logout` | Invalidate refresh token | No |
+| Method | Endpoint    | Description               | Auth Required |
+| ------ | ----------- | ------------------------- | ------------- |
+| POST   | `/register` | Create a new user account | No            |
+| POST   | `/login`    | Log in and receive tokens | No            |
+| POST   | `/refresh`  | Get a new access token    | No            |
+| POST   | `/logout`   | Invalidate refresh token  | No            |
 
 **Login request body:**
+
 ```json
 {
   "email": "user@example.com",
@@ -150,6 +151,7 @@ Product images are handled by **Multer**. When an admin adds a product, the imag
 ```
 
 **Login response:**
+
 ```json
 {
   "message": "logged in successfully",
@@ -159,6 +161,7 @@ Product images are handled by **Multer**. When an admin adds a product, the imag
 ```
 
 All protected requests must include the access token in the header:
+
 ```
 Authorization: Bearer <accesstoken>
 ```
@@ -167,26 +170,26 @@ Authorization: Bearer <accesstoken>
 
 ### Users — `/api/users`
 
-| Method | Endpoint | Description | Auth Required | Admin Only |
-|---|---|---|---|---|
-| GET | `/getusers` | Get all users | ✅ | ✅ |
-| GET | `/getuser/:id` | Get a single user | ✅ | No |
-| PUT | `/updateuser/:id` | Update user data | ✅ | No |
-| DELETE | `/deleteuser/:id` | Delete a user | ✅ | No |
+| Method | Endpoint          | Description       | Auth Required | Admin Only |
+| ------ | ----------------- | ----------------- | ------------- | ---------- |
+| GET    | `/getusers`       | Get all users     | ✅            | ✅         |
+| GET    | `/getuser/:id`    | Get a single user | ✅            | No         |
+| PUT    | `/updateuser/:id` | Update user data  | ✅            | No         |
+| DELETE | `/deleteuser/:id` | Delete a user     | ✅            | No         |
 
 ---
 
 ### Products — `/api/products`
 
-| Method | Endpoint | Description | Auth Required | Admin Only |
-|---|---|---|---|---|
-| GET | `/getproducts` | Get all products | No | No |
-| GET | `/getproduct/:id` | Get single product | No | No |
-| POST | `/addproduct` | Add a new product (with image) | ✅ | No |
-| PUT | `/updateproduct/:id` | Update a product | ✅ | No |
-| DELETE | `/deleteproduct/:id` | Delete a product | ✅ | No |
-| PUT | `/addimages/:productid` | Upload multiple images | ✅ | No |
-| GET | `/getfeatured/:count` | Get N featured products | ✅ | ✅ |
+| Method | Endpoint                | Description                    | Auth Required | Admin Only |
+| ------ | ----------------------- | ------------------------------ | ------------- | ---------- |
+| GET    | `/getproducts`          | Get all products               | No            | No         |
+| GET    | `/getproduct/:id`       | Get single product             | No            | No         |
+| POST   | `/addproduct`           | Add a new product (with image) | ✅            | No         |
+| PUT    | `/updateproduct/:id`    | Update a product               | ✅            | No         |
+| DELETE | `/deleteproduct/:id`    | Delete a product               | ✅            | No         |
+| PUT    | `/addimages/:productid` | Upload multiple images         | ✅            | No         |
+| GET    | `/getfeatured/:count`   | Get N featured products        | ✅            | ✅         |
 
 **Adding a product** requires `multipart/form-data` since it includes an image file:
 
@@ -202,30 +205,31 @@ File:   image (single file, png/jpg/jpeg only)
 
 ### Categories — `/api/categories`
 
-| Method | Endpoint | Description | Auth Required | Admin Only |
-|---|---|---|---|---|
-| GET | `/getcategories` | Get all categories | ✅ | No |
-| GET | `/getcategory/:id` | Get single category | ✅ | No |
-| POST | `/addcategory` | Create a category | ✅ | ✅ |
-| PUT | `/updatecategory/:id` | Update a category | ✅ | ✅ |
-| DELETE | `/deletecategory/:id` | Delete a category | ✅ | ✅ |
+| Method | Endpoint              | Description         | Auth Required | Admin Only |
+| ------ | --------------------- | ------------------- | ------------- | ---------- |
+| GET    | `/getcategories`      | Get all categories  | ✅            | No         |
+| GET    | `/getcategory/:id`    | Get single category | ✅            | No         |
+| POST   | `/addcategory`        | Create a category   | ✅            | ✅         |
+| PUT    | `/updatecategory/:id` | Update a category   | ✅            | ✅         |
+| DELETE | `/deletecategory/:id` | Delete a category   | ✅            | ✅         |
 
 ---
 
 ### Orders — `/api/orders`
 
-| Method | Endpoint | Description | Auth Required | Admin Only |
-|---|---|---|---|---|
-| GET | `/getorders` | Get all orders | ✅ | No |
-| GET | `/getorder/:id` | Get single order | ✅ | No |
-| POST | `/addorder` | Place a new order | ✅ | No |
-| PUT | `/updateorder/:id` | Update order status | ✅ | No |
-| DELETE | `/delete/:id` | Delete an order | ✅ | No |
-| GET | `/get-user-orders/:userid` | Get all orders for a user | ✅ | No |
-| GET | `/getorderscount` | Get total number of orders | ✅ | No |
-| GET | `/totalsales` | Get total sales revenue | ✅ | ✅ |
+| Method | Endpoint                   | Description                | Auth Required | Admin Only |
+| ------ | -------------------------- | -------------------------- | ------------- | ---------- |
+| GET    | `/getorders`               | Get all orders             | ✅            | No         |
+| GET    | `/getorder/:id`            | Get single order           | ✅            | No         |
+| POST   | `/addorder`                | Place a new order          | ✅            | No         |
+| PUT    | `/updateorder/:id`         | Update order status        | ✅            | No         |
+| DELETE | `/delete/:id`              | Delete an order            | ✅            | No         |
+| GET    | `/get-user-orders/:userid` | Get all orders for a user  | ✅            | No         |
+| GET    | `/getorderscount`          | Get total number of orders | ✅            | No         |
+| GET    | `/totalsales`              | Get total sales revenue    | ✅            | ✅         |
 
 **Placing an order request body:**
+
 ```json
 {
   "orderItem": [
@@ -292,6 +296,7 @@ REFRESH_TOKEN=your_refresh_token_secret_here
 > ⚠️ Never commit your `.env` file to GitHub. Make sure `.env` is listed in your `.gitignore`.
 
 To generate strong secrets, run this in your terminal:
+
 ```bash
 node -e "console.log(require('crypto').randomBytes(64).toString('hex'))"
 ```
@@ -311,5 +316,4 @@ The following security measures are implemented in this API:
 - **File type validation** — the image upload middleware rejects any file that is not a `png`, `jpg`, or `jpeg`.
 - **Server-side price calculation** — order totals are always calculated by the server, never trusted from the client.
 
- 
- 
+---
